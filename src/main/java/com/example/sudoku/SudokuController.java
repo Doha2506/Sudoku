@@ -116,22 +116,28 @@ public class SudokuController {
 
     @FXML
     void checkSolution(ActionEvent event) {
-        setCheckBoard();
-        if(new Sudoku().checkSolution(checkBoard,result)){
-            System.out.println(true);
-            result.setStyle("-fx-background-color: #24b133; ");
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Congratulations .. You Solve It Successfully  :) ");
-            alert.showAndWait();
-        }
-        else{
-            System.out.println(false);
+        if(board.getChildren().isEmpty()) {
+            result.setStyle("-fx-background-color: #ff0000;");
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Oops You made a mistake !! Please Try Again  :( ");
+            alert.setContentText("You Must Initialize The Board !! Please Click Create Button !!");
             alert.showAndWait();
-            result.setStyle("-fx-background-color: #fff; ");
+            result.setStyle("-fx-background-color: #fff;");
+        }else {
+            setCheckBoard();
+            if (new Sudoku().checkSolution(checkBoard, result)) {
+                System.out.println(true);
+                result.setStyle("-fx-background-color: #24b133; ");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Congratulations .. You Solve It Successfully  :) ");
+                alert.showAndWait();
+            } else {
+                System.out.println(false);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Oops You made a mistake !! Please Try Again  :( ");
+                alert.showAndWait();
+                result.setStyle("-fx-background-color: #fff; ");
+            }
         }
-
     }
 
     @FXML
