@@ -23,12 +23,12 @@ public class RedundantNumberInRow implements Runnable{
         for (int column = 0; column < GridSize; column++){
             if(board[row][column] == number)
                 result++;
+
+            if(result > 1)
+                return true; // Means that the number is redundant more than once
         }
 
-        if(result > 1)
-            return true; // Means that the number is redundant more than once
-        else
-            return false;
+        return false;
     }
 
 

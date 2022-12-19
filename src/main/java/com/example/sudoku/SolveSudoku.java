@@ -26,7 +26,7 @@ public class SolveSudoku {
 
         }
 
-        if(result.isRow() && result.isColumn() && result.isBox()) // Number exists in row or column or box
+        if(result.isRow() || result.isColumn() || result.isBox()) // Number exists in row or column or box
             return false; // InValid Placement
         else
             return true; // Valid Placement
@@ -46,6 +46,7 @@ public class SolveSudoku {
                             else
                                 board[row][column] = 0;
                         }
+
                     }
                     return false; // I can't solve that board
                 }

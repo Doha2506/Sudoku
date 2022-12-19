@@ -16,53 +16,30 @@ public class SudokuController {
     @FXML
     private GridPane board;
     @FXML
-    private GridPane column;
-    @FXML
-    private GridPane row;
-    @FXML
     public Button result;
 
     Font font = Font.font("Comic Sans MS", 20.0F);
 
     @FXML
     void createGame(ActionEvent event) {
-        setRow();
-        setColumn();
-        setBoard();
-    }
-
-    private void setRow(){
-        for(int col = 0; col < size; col++){
-            String value = Integer.toString(col+1);
-            TextField text = new TextField(value);
-            text.fontProperty().set(font);
-            text.setAlignment(Pos.CENTER);
-            text.setStyle("-fx-background-color: #ffefd5 ; ");
-            row.add(text, col, 0);
-        }
-
-    }
-
-    private void setColumn(){
-        for(int row = 0; row < size; row++){
-            String value = Integer.toString(row+1);
-            TextField text = new TextField(value);
-            text.fontProperty().set(font);
-            text.setAlignment(Pos.CENTER);
-            text.setStyle("-fx-background-color: #ffefd5 ; ");
-            column.add(text, 0, row);
+        if(board.getChildren().isEmpty()){
+            setBoard();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You Already Initialized The Board !! ");
+            alert.showAndWait();
         }
     }
 
     int[][] intialBoard =
             {
-                    {7,0,2,4,5,8,6,1,9},
+                    {7,0,2,0,5,8,6,1,0},
                     {0,5,6,1,7,3,8,2,4},
                     {1,8,4,6,2,9,5,3,7},
 
-                    {8,7,1,5,6,4,3,9,2},
-                    {6,4,3,8,9,2,7,5,1},
-                    {2,9,5,3,1,7,4,6,8},
+                    {0,7,1,5,6,4,3,9,2},
+                    {6,0,3,8,9,2,7,5,1},
+                    {2,0,5,3,1,7,4,6,8},
 
                     {3,2,9,7,8,6,1,0,5},
                     {4,1,8,2,3,5,9,7,6},
@@ -101,7 +78,7 @@ public class SudokuController {
                 ((row >= 6 && row < 9) && (column >= 6 && column < 9))
         )
         {
-            tx.setStyle("-fx-background-color: #ffefd5 ; ");
+            tx.setStyle("-fx-background-color: #b2d7ec ; ");
             return true;
         }
         return false;
@@ -136,12 +113,13 @@ public class SudokuController {
             System.out.println();
         }
     }
+
     @FXML
     void checkSolution(ActionEvent event) {
         setCheckBoard();
         if(new Sudoku().checkSolution(checkBoard,result)){
             System.out.println(true);
-            result.setStyle("-fx-background-color: #3cb371; ");
+            result.setStyle("-fx-background-color: #24b133; ");
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("Congratulations .. You Solve It Successfully  :) ");
             alert.showAndWait();
@@ -158,14 +136,21 @@ public class SudokuController {
 
     @FXML
     void solveGame(ActionEvent event) {
-        if(new Sudoku().solveSudoku(intialBoard, new RowColumnBox())){
-            printSolutionOnBoard(intialBoard);
-        }
-        else{
-            System.out.println(false); // can't solve the board
+        if(board.getChildren().isEmpty()){
+            result.setStyle("-fx-background-color: #ff0000;");
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Can't Solve this board :( ");
+            alert.setContentText("You Must Initialize The Board !! Please Click Create Button !!");
             alert.showAndWait();
+            result.setStyle("-fx-background-color: #fff;");
+        }else {
+            if (new Sudoku().solveSudoku(intialBoard, new RowColumnBox())) {
+                printSolutionOnBoard(intialBoard);
+            } else {
+                System.out.println(false); // can't solve the board
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Can't Solve this board :( ");
+                alert.showAndWait();
+            }
         }
     }
 
@@ -178,7 +163,7 @@ public class SudokuController {
                 text.fontProperty().set(font);
                 text.setAlignment(Pos.CENTER);
                 text.setDisable(true);
-                text.setStyle("-fx-background-color: #ffefd5 ; ");
+                text.setStyle("-fx-background-color: #b2d7ec ; ");
                 board.add(text, column, row);
             }
         }

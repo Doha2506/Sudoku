@@ -11,7 +11,7 @@ public class CheckSolution {
 
     private static boolean isRedundantNumber(int[][] board, int row, int column, int number, Button result){
 
-        ExecutorService exService = Executors.newFixedThreadPool(2);
+        ExecutorService exService = Executors.newFixedThreadPool(3);
 
         Runnable rowThread = new RedundantNumberInRow(board,row,number,result);
         exService.execute(rowThread);
@@ -29,9 +29,9 @@ public class CheckSolution {
         }
 
         if(result.getStyle().equals("-fx-background-color: #fff; "))
-            return false;
+            return false; // is not redundant
         else
-            return true;
+            return true; // is redundant
 
     }
 
